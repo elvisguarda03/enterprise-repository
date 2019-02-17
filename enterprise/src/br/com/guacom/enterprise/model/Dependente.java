@@ -12,11 +12,13 @@ public class Dependente {
 	}
 	
 	public Dependente(String nome, Funcionario funcionario) {
+		if(nome == null || funcionario == null)
+			throw new IllegalArgumentException("Dados não foram cadastrados!");
 		this.nome = nome;
 		this.funcionario = funcionario;
 	}
 
-	public Integer getId() {
+	public Integer getIdDependente() {
 		return id;
 	}
 	

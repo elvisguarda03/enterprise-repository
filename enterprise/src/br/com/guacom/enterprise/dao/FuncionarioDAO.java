@@ -15,6 +15,12 @@ import br.com.guacom.enterprise.model.Funcionario;
 public class FuncionarioDAO {
 	private DependenteDAO dDAO;
 
+	public FuncionarioDAO(DependenteDAO dDAO) {
+		if(dDAO == null)
+			throw new IllegalArgumentException();
+		this.dDAO = dDAO;
+	}
+	
 	public boolean insert(Funcionario f) {
 		try (Connection con = ConnectionFactory.getConnection()) {
 			return execute(f, con);
@@ -25,8 +31,8 @@ public class FuncionarioDAO {
 	}
 
 	private boolean execute(Funcionario f, Connection con) throws SQLException {
-		String sql = "insert into funcionario (nome, sexo, nivel, tipo_funcionario) values (?,?,?,?)";
-		try (PreparedStatement stmt = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
+		final String SQL = "insert into funcionario (nome, sexo, nivel, tipo_funcionario) values (?,?,?,?)";
+		try (PreparedStatement stmt = con.prepareStatement(SQL, PreparedStatement.RETURN_GENERATED_KEYS)) {
 			stmt.setString(1, f.getNome());
 			stmt.setString(2, f.getSexo());
 			stmt.setString(3, f.getNivel());
@@ -36,9 +42,8 @@ public class FuncionarioDAO {
 				if (rs.next()) {
 					int id = 0;
 					id = Integer.parseInt(rs.getString("GENERATED_KEY"));
-					if (id > 0 && f.getDependentes() != null) {
+					if (id > 0) {
 						f.setId(id);
-						dDAO.insert(f.getDependentes());
 						return true;
 					}
 				}
@@ -50,11 +55,11 @@ public class FuncionarioDAO {
 	}
 
 	public boolean insert(ConsultorDeVendas cdv) {
-		String sql = "insert into consultor (valorBonusMensal, id_funcionario) values (?,?)";
+		final String SQL = "insert into consultor (valorBonusMensal, id_funcionario) values (?,?)";
 		try (Connection con = ConnectionFactory.getConnection()) {
 			boolean isExecute = execute(cdv, con);
 			if (isExecute) {
-				try (PreparedStatement stmt = con.prepareStatement(sql)) {
+				try (PreparedStatement stmt = con.prepareStatement(SQL)) {
 					stmt.setBigDecimal(1, cdv.getValorBonusMensal());
 					stmt.setInt(2, cdv.getCodFuncionario());
 					stmt.executeUpdate();
@@ -68,9 +73,9 @@ public class FuncionarioDAO {
 	}
 
 	public List<Funcionario> list() {
-		String sql = "select f.*, c.* from funcionario f left outer join consultor c on c.id_funcionario = f.id;";
+		final String SQL = "select f.*, c.* from funcionario f left outer join consultor c on c.id_funcionario = f.id;";
 		List<Funcionario> funcionarios = new ArrayList<>();
-		try (PreparedStatement stmt = ConnectionFactory.getConnection().prepareStatement(sql);
+		try (PreparedStatement stmt = ConnectionFactory.getConnection().prepareStatement(SQL);
 				ResultSet rs = stmt.executeQuery()) {
 			while (rs.next()) {
 				try {
@@ -97,8 +102,8 @@ public class FuncionarioDAO {
 	}
 
 	public boolean delete(int id) {
-		String sql = "delete from funcionario where id=?";
-		try (PreparedStatement stmt = ConnectionFactory.getConnection().prepareStatement(sql)) {
+		final String SQL = "delete from funcionario where id=?";
+		try (PreparedStatement stmt = ConnectionFactory.getConnection().prepareStatement(SQL)) {
 			stmt.setInt(1, id);
 			stmt.executeUpdate();
 			return stmt.getUpdateCount() > 0;

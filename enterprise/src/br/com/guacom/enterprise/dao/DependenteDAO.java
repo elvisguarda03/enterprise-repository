@@ -16,7 +16,7 @@ public class DependenteDAO {
 		String sql = "insert into dependente (nome, cod_funcionario) values (?,?)";
 		try (PreparedStatement stmt = ConnectionFactory.getConnection().prepareStatement(sql)) {
 			stmt.setString(1, dependente.getNome());
-			stmt.setInt(2, dependente.getFuncionario().getId());
+			stmt.setInt(2, dependente.getFuncionario().getIdFuncionario());
 			stmt.executeUpdate();
 			return stmt.getUpdateCount() > 0;
 		} catch (SQLException e) {
@@ -36,7 +36,7 @@ public class DependenteDAO {
 		String sql = "select * from dependente d where d.cod_funcionario = ?";
 		List<Dependente> dependentes = new ArrayList<>();
 		try (PreparedStatement stmt = ConnectionFactory.getConnection().prepareStatement(sql)) {
-			stmt.setInt(1, f.getId());
+			stmt.setInt(1, f.getIdFuncionario());
 			try (ResultSet rs = stmt.executeQuery()) {
 				while (rs.next()) {
 					Dependente d = new Dependente(rs.getInt("id"), rs.getString("nome"), f);
@@ -48,5 +48,26 @@ public class DependenteDAO {
 			System.out.println("Erro: " + e.getMessage());
 		}
 		throw new IllegalArgumentException("Este funcionário não possui dependentes.");
+	}
+
+	public boolean delete(int id) {
+		final String SQL = "delete from dependente where id=?";
+		return remove(id, SQL);
+	}
+
+	private boolean remove(int id, final String SQL) {
+		try(PreparedStatement stmt = ConnectionFactory.getConnection().prepareStatement(SQL)) {
+			stmt.setInt(1, id);
+			stmt.executeUpdate();
+			return stmt.getUpdateCount() > 0;
+		} catch (SQLException e) {
+			System.out.println(String.format("Erro: %s", e.getMessage()));
+		}
+		return false;
+	}
+	
+	public boolean delete(Funcionario f) {
+		final String SQL = "delete from dependente where cod_funcionario = ?";
+		return remove(f.getIdFuncionario(), SQL);
 	}
 }

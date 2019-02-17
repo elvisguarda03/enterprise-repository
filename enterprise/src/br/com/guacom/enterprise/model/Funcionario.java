@@ -54,6 +54,12 @@ public class Funcionario {
 		this.sexo = sexo;
 	}
 
+	public Funcionario(Integer id) {
+		if (nome == null || nivel == null || sexo == null)
+			throw new IllegalArgumentException("Não foram preenchidos todos os campos.");
+		this.id = id;
+	}
+
 	public BigDecimal calcularSalario() {
 		if (nivel.equals("Trainee"))
 			return BigDecimal.valueOf(2000.00);
@@ -62,12 +68,12 @@ public class Funcionario {
 		return BigDecimal.valueOf(5000.00);
 	}
 
-	public Integer getId() {
+	public Integer getIdFuncionario() {
 		return id;
 	}
 
 	public void setId(Integer id) {
-		if (dependentes == null)
+		if (id == null)
 			throw new IllegalArgumentException("O id não foi gerado.");
 		this.id = id;
 	}

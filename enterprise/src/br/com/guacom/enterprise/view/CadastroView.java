@@ -20,10 +20,12 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class CadastroView extends JFrame {
-	public JTable tblFuncionario;
 	private JScrollPane scrollPane;
+	public JTable tblFuncionario;
 	public JTextField txtNome;
 	public JTextField txtBonus;
 	public JButton btnNovo;
@@ -34,6 +36,8 @@ public class CadastroView extends JFrame {
 	public JButton btnConfirmar;
 	public JComboBox boxSexo;
 	public JComboBox boxNivel;
+	public JTextField txtCodigo;
+	private JLabel lblNewLabel_1;
 
 	/**
 	 * Create the frame.
@@ -117,62 +121,71 @@ public class CadastroView extends JFrame {
 		btnCancelar = new JButton("Cancelar");
 		
 		btnConfirmar = new JButton("Confirmar");
+		
+		lblNewLabel_1 = new JLabel("C\u00F3digo:");
+		
+		txtCodigo = new JTextField();
+		txtCodigo.setColumns(10);
 		GroupLayout gl_c_campos = new GroupLayout(c_campos);
 		gl_c_campos.setHorizontalGroup(
 			gl_c_campos.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_c_campos.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_c_campos.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_c_campos.createParallelGroup(Alignment.LEADING, false)
-							.addGroup(Alignment.TRAILING, gl_c_campos.createSequentialGroup()
-								.addComponent(lblNome)
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addComponent(txtNome, GroupLayout.PREFERRED_SIZE, 183, GroupLayout.PREFERRED_SIZE)
-								.addGap(26)
-								.addComponent(lblSexo, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE))
-							.addGroup(Alignment.TRAILING, gl_c_campos.createSequentialGroup()
-								.addComponent(lblSalario)
-								.addGap(6)
-								.addComponent(txtBonus, GroupLayout.PREFERRED_SIZE, 72, GroupLayout.PREFERRED_SIZE)
-								.addPreferredGap(ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
-								.addComponent(lblNewLabel)
-								.addGap(9)))
 						.addGroup(gl_c_campos.createSequentialGroup()
 							.addComponent(btnSalvar, GroupLayout.PREFERRED_SIZE, 77, GroupLayout.PREFERRED_SIZE)
 							.addGap(64)
-							.addComponent(btnConfirmar, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-							.addGap(53)))
-					.addPreferredGap(ComponentPlacement.RELATED, 2, Short.MAX_VALUE)
-					.addGroup(gl_c_campos.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_c_campos.createParallelGroup(Alignment.LEADING)
-							.addComponent(boxSexo, 0, 100, Short.MAX_VALUE)
-							.addComponent(boxNivel, 0, 100, Short.MAX_VALUE))
+							.addComponent(btnConfirmar, GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
+							.addGap(53)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnCancelar, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_c_campos.createSequentialGroup()
-							.addComponent(btnCancelar, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
-							.addContainerGap())))
+							.addComponent(lblSalario)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(txtBonus, GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)
+							.addGap(53)
+							.addComponent(lblNewLabel)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(boxSexo, 0, 90, Short.MAX_VALUE))
+						.addGroup(gl_c_campos.createSequentialGroup()
+							.addComponent(lblNome)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(txtNome, GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
+							.addGap(12)
+							.addComponent(lblSexo, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(boxNivel, 0, 87, Short.MAX_VALUE))
+						.addGroup(gl_c_campos.createSequentialGroup()
+							.addComponent(lblNewLabel_1)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(txtCodigo, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap())
 		);
 		gl_c_campos.setVerticalGroup(
 			gl_c_campos.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_c_campos.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_c_campos.createParallelGroup(Alignment.BASELINE)
-						.addComponent(boxSexo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblNewLabel_1)
+						.addComponent(txtCodigo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(gl_c_campos.createParallelGroup(Alignment.BASELINE)
+						.addComponent(boxNivel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblSexo, GroupLayout.PREFERRED_SIZE, 18, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblNome)
-						.addComponent(txtNome, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(12)
-					.addGroup(gl_c_campos.createParallelGroup(Alignment.LEADING)
+						.addComponent(txtNome))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(gl_c_campos.createParallelGroup(Alignment.BASELINE)
+						.addComponent(boxSexo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblNewLabel)
 						.addComponent(lblSalario)
-						.addGroup(gl_c_campos.createParallelGroup(Alignment.BASELINE)
-							.addComponent(txtBonus, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE)
-							.addComponent(boxNivel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addComponent(lblNewLabel)))
-					.addGap(54)
+						.addComponent(txtBonus, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE))
+					.addGap(30)
 					.addGroup(gl_c_campos.createParallelGroup(Alignment.BASELINE)
 						.addComponent(btnCancelar)
 						.addComponent(btnSalvar)
 						.addComponent(btnConfirmar, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-					.addContainerGap())
+					.addGap(5))
 		);
 		c_campos.setLayout(gl_c_campos);
 
@@ -201,16 +214,7 @@ public class CadastroView extends JFrame {
 		tblFuncionario.setFillsViewportHeight(true);
 		c_table.setLayout(gl_c_table);
 
-		JPanel panel_1 = new JPanel();
-		tabbedPane.addTab("Dependentes", null, panel_1, null);
-		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
-		gl_panel_1
-				.setHorizontalGroup(gl_panel_1.createParallelGroup(Alignment.LEADING).addGap(0, 444, Short.MAX_VALUE));
-		gl_panel_1.setVerticalGroup(gl_panel_1.createParallelGroup(Alignment.LEADING).addGap(0, 358, Short.MAX_VALUE));
-		panel_1.setLayout(gl_panel_1);
-
 		scrollPane = new JScrollPane();
 		getContentPane().setLayout(groupLayout);
 	}
-
 }
