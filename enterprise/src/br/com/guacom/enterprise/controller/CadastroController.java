@@ -77,6 +77,17 @@ public class CadastroController implements ActionListener {
 			}
 			clearDataField();
 		}
+		
+		if(e.getSource() == cv.btnEditar) {
+			enabled("Editar");
+			int linha = cv.tblFuncionario.getSelectedRow();
+			int id = Integer.parseInt(cv.tblFuncionario.getValueAt(linha, 0).toString());
+			String nome = String.valueOf(cv.tblFuncionario.getValueAt(linha, 1));
+			String nivel = cv.tblFuncionario.getValueAt(linha, 3).toString();
+			cv.txtNome.setText(nome);
+			cv.txtCodigo.setText(String.valueOf(id));
+		}
+		
 		if (e.getSource() == cv.btnExcluir) {
 			int linha = cv.tblFuncionario.getSelectedRow();
 			int id = Integer.parseInt(String.valueOf(cv.tblFuncionario.getValueAt(linha, 0)));

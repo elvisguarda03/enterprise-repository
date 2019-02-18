@@ -70,4 +70,17 @@ public class DependenteDAO {
 		final String SQL = "delete from dependente where cod_funcionario = ?";
 		return remove(f.getIdFuncionario(), SQL);
 	}
+
+	public boolean update(Dependente d) {
+		final String SQL = "update dependente set nome=? where id=?";
+		try (PreparedStatement stmt = ConnectionFactory.getConnection().prepareStatement(SQL)) {
+			stmt.setString(1, d.getNome());
+			stmt.setInt(2, d.getIdDependente());
+			stmt.executeUpdate();
+			return stmt.getUpdateCount() > 0;
+		} catch (SQLException e) {
+			System.out.println(String.format("Erro: %s", e.getMessage()));
+		}
+		return false;
+	}
 }

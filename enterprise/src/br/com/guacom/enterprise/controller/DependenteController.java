@@ -89,8 +89,23 @@ public class DependenteController implements ActionListener {
 				JOptionPane.showMessageDialog(dv, String.format("Erro: %s", ex.getMessage()));
 			}
 		}
+
+		if (e.getSource() == dv.btnEditar) {
+			enabled("Editar");
+			try {
+				int row = dv.tblDependente.getSelectedRow();
+				Integer id = Integer.parseInt(dv.tblDependente.getValueAt(row, 0).toString());
+				String name = dv.tblDependente.getValueAt(row, 1).toString();
+				Dependente d = new Dependente(id, name);
+				if (dd.update(d))
+					JOptionPane.showMessageDialog(dv,
+							String.format("Dependente %s foi atualizado com sucesso!!", d.getNome()));
+			} catch (Exception ex) {
+				JOptionPane.showMessageDialog(dv, String.format("Erro: ", ex.getMessage()));
+			}
+		}
 		clearDataFields();
-		list();
+		loadData();
 	}
 
 	private void clearDataFields() {
@@ -143,7 +158,7 @@ public class DependenteController implements ActionListener {
 		}
 	}
 
-	private void list() {
+	private void loadData() {
 		DefaultTableModel dtm = new DefaultTableModel();
 		dv.tblDependente.setModel(dtm);
 		dtm.addColumn("Código");
@@ -158,7 +173,7 @@ public class DependenteController implements ActionListener {
 					columns[2] = d.getFuncionario().getNome();
 					dtm.addRow(columns);
 				}
-			} catch(NullPointerException e) {
+			} catch (NullPointerException e) {
 				continue;
 			}
 		}
